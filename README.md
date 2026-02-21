@@ -42,6 +42,40 @@ Guide pratique et détaillé des commandes Linux, Docker et OpenShift/Kubernetes
 - RBAC et sécurité
 - Helm charts
 
+### 4️⃣ [CI/CD Pipelines - Automatisation](./cicd-pipelines.md)
+**Automatiser builds et déploiements :**
+- GitLab CI/CD (pipelines, artifacts, cache)
+- GitHub Actions (workflows, matrix, reusable)
+- Jenkins (pipelines, shared libraries, JCasC)
+- Best practices CI/CD
+
+### 5️⃣ [Terraform - Infrastructure as Code](./terraform.md)
+**Gérer l'infrastructure cloud :**
+- Syntaxe HCL et providers
+- Variables, outputs, locals
+- Modules et state management
+- AWS resources (EC2, VPC, S3, RDS, ALB)
+- Backend S3 + DynamoDB
+- Workspaces et environnements
+
+### 6️⃣ [Ansible - Configuration Management](./ansible.md)
+**Automatiser la configuration de serveurs :**
+- Inventory (static, dynamic)
+- Playbooks et roles
+- Modules essentiels (apt, copy, template, service)
+- Variables et facts
+- Loops et conditions
+- Ansible Vault (secrets)
+
+### 7️⃣ [Monitoring - Prometheus & Grafana](./monitoring.md)
+**Monitorer vos infrastructures :**
+- Prometheus (métriques time-series)
+- PromQL (query language)
+- Alertmanager (notifications)
+- Grafana (dashboards)
+- Exporters (node, mysql, nginx, blackbox)
+- Custom application metrics
+
 ---
 
 ## 🚀 Démarrage rapide
@@ -55,6 +89,10 @@ cd linux-guru
 cat linux-commands.md
 cat docker-commands.md
 cat openshift-kubernetes.md
+cat cicd-pipelines.md
+cat terraform.md
+cat ansible.md
+cat monitoring.md
 ```
 
 ---
@@ -112,6 +150,30 @@ Après avoir parcouru ces guides, vous serez capable de :
 - Monitorer et debugger des pods
 - Sécuriser vos déploiements
 
+**CI/CD :**
+- Créer des pipelines automatisés
+- Déployer en continu
+- Intégrer tests et sécurité
+- Gérer artifacts et cache
+
+**Terraform :**
+- Définir l'infrastructure as code
+- Gérer le state et les backends
+- Créer des modules réutilisables
+- Déployer multi-cloud
+
+**Ansible :**
+- Automatiser la configuration
+- Créer des playbooks et roles
+- Gérer les inventaires
+- Sécuriser avec Vault
+
+**Monitoring :**
+- Collecter et visualiser métriques
+- Créer dashboards Grafana
+- Configurer alertes intelligentes
+- Monitorer applications custom
+
 ---
 
 ## 🛠️ Environnement recommandé
@@ -125,6 +187,15 @@ Docker Engine 24.x + Docker Compose v2
 
 # Kubernetes
 Kubernetes 1.28+ / OpenShift 4.14+
+
+# CI/CD
+GitLab 16.x / GitHub Actions / Jenkins 2.4x
+
+# IaC & Config Management
+Terraform 1.6+ / Ansible 2.15+
+
+# Monitoring
+Prometheus 2.45+ / Grafana 10.x
 ```
 
 ---
