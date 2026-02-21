@@ -1,0 +1,19 @@
+# Linux GURU - .gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Editor
+.vscode/
+.idea/
+*.sublime-*
+
+# Logs
+*.log
+
+# Temp
+*.tmp
+*.bak
