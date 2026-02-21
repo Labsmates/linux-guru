@@ -1,0 +1,140 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                      KUBECTL/OPENSHIFT CHEAT SHEET                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─ SETUP & CONFIG ─────────────────────────────────────────────────────────────┐
+│ kubectl config view                View kubeconfig                           │
+│ kubectl config get-contexts        List contexts                             │
+│ kubectl config use-context prod    Switch context                            │
+│ kubectl config set-context --current --namespace=myapp  Set default NS      │
+│                                                                              │
+│ oc login https://api.cluster.com   Login OpenShift                          │
+│ oc whoami                           Current user                             │
+│ oc project myapp                    Switch project (namespace)               │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PODS ───────────────────────────────────────────────────────────────────────┐
+│ kubectl get pods                   List pods                                 │
+│ kubectl get pods -o wide           More details (IP, Node)                   │
+│ kubectl get pods -A                All namespaces                            │
+│ kubectl get pods -w                Watch (real-time)                         │
+│ kubectl describe pod nginx         Detailed info                             │
+│ kubectl logs nginx                 View logs                                 │
+│ kubectl logs -f nginx              Follow logs                               │
+│ kubectl logs nginx -c sidecar      Specific container                        │
+│ kubectl exec -it nginx -- /bin/bash  Shell in pod                           │
+│ kubectl delete pod nginx           Delete pod                                │
+│ kubectl port-forward nginx 8080:80   Port forward                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ DEPLOYMENTS ────────────────────────────────────────────────────────────────┐
+│ kubectl create deployment nginx --image=nginx  Create deployment            │
+│ kubectl get deployments            List deployments                          │
+│ kubectl describe deployment nginx  Details                                   │
+│ kubectl scale deployment nginx --replicas=3  Scale                          │
+│ kubectl set image deployment/nginx nginx=nginx:1.26  Update image           │
+│ kubectl rollout status deployment/nginx  Check rollout                      │
+│ kubectl rollout history deployment/nginx  History                           │
+│ kubectl rollout undo deployment/nginx  Rollback                             │
+│ kubectl rollout restart deployment/nginx  Restart                           │
+│ kubectl delete deployment nginx    Delete                                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SERVICES ───────────────────────────────────────────────────────────────────┐
+│ kubectl expose deployment nginx --port=80 --type=ClusterIP  Create service  │
+│ kubectl get services               List services                             │
+│ kubectl get svc                    Short form                                │
+│ kubectl describe svc nginx         Details                                   │
+│ kubectl delete svc nginx           Delete service                            │
+│                                                                              │
+│ Service types:                                                               │
+│   ClusterIP     Internal only (default)                                      │
+│   NodePort      Exposes on node port (30000-32767)                          │
+│   LoadBalancer  Cloud load balancer                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ CONFIGMAPS & SECRETS ───────────────────────────────────────────────────────┐
+│ kubectl create configmap app-config --from-literal=key=value  Create        │
+│ kubectl create configmap app-config --from-file=config.txt    From file     │
+│ kubectl get configmaps             List configmaps                           │
+│ kubectl describe cm app-config     Details                                   │
+│                                                                              │
+│ kubectl create secret generic db-secret --from-literal=pass=secret  Create  │
+│ kubectl get secrets                List secrets                              │
+│ kubectl get secret db-secret -o yaml  View (base64 encoded)                 │
+│ kubectl delete secret db-secret    Delete                                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ APPLY & DELETE ─────────────────────────────────────────────────────────────┐
+│ kubectl apply -f deployment.yaml   Create/update from YAML                   │
+│ kubectl apply -f ./manifests/      Apply directory                           │
+│ kubectl delete -f deployment.yaml  Delete from YAML                          │
+│ kubectl replace -f deployment.yaml --force  Force replace                    │
+│ kubectl diff -f deployment.yaml    Show diff before apply                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ DEBUGGING ──────────────────────────────────────────────────────────────────┐
+│ kubectl get events                 Cluster events                            │
+│ kubectl get events --sort-by=.metadata.creationTimestamp  Sorted            │
+│ kubectl top nodes                  Node resource usage                       │
+│ kubectl top pods                   Pod resource usage                        │
+│ kubectl describe pod failing-pod   Why pod failed                            │
+│ kubectl logs failing-pod --previous  Previous container logs                │
+│ kubectl debug node/worker-1 -it --image=busybox  Debug node                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ NAMESPACE ──────────────────────────────────────────────────────────────────┐
+│ kubectl get namespaces             List namespaces                           │
+│ kubectl get ns                     Short form                                │
+│ kubectl create namespace dev       Create namespace                          │
+│ kubectl delete namespace dev       Delete namespace                          │
+│ kubectl get pods -n dev            List pods in namespace                    │
+│ kubectl config set-context --current --namespace=dev  Set default           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ LABELS & SELECTORS ─────────────────────────────────────────────────────────┐
+│ kubectl get pods --show-labels     Show labels                               │
+│ kubectl get pods -l app=nginx      Filter by label                           │
+│ kubectl label pod nginx env=prod   Add label                                 │
+│ kubectl label pod nginx env-       Remove label                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ OPENSHIFT SPECIFIC ─────────────────────────────────────────────────────────┐
+│ oc new-app nginx                   Create app from image                     │
+│ oc new-app https://github.com/user/repo.git  From Git                       │
+│ oc expose svc/myapp                Create route                              │
+│ oc get routes                      List routes                               │
+│ oc get builds                      List builds                               │
+│ oc start-build myapp               Trigger build                             │
+│ oc logs -f bc/myapp                Build logs                                │
+│ oc get imagestreams                List image streams                        │
+│ oc rollout latest dc/myapp         Rollout (DeploymentConfig)                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ HELPFUL ALIASES ────────────────────────────────────────────────────────────┐
+│ alias k='kubectl'                                                            │
+│ alias kgp='kubectl get pods'                                                 │
+│ alias kgs='kubectl get svc'                                                  │
+│ alias kgd='kubectl get deployments'                                          │
+│ alias kdp='kubectl describe pod'                                             │
+│ alias kl='kubectl logs'                                                      │
+│ alias ke='kubectl exec -it'                                                  │
+│ alias kaf='kubectl apply -f'                                                 │
+│ alias kdelf='kubectl delete -f'                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ QUICK YAML GENERATION ──────────────────────────────────────────────────────┐
+│ kubectl create deployment nginx --image=nginx --dry-run=client -o yaml      │
+│ kubectl run nginx --image=nginx --dry-run=client -o yaml                     │
+│ kubectl expose deployment nginx --port=80 --dry-run=client -o yaml           │
+│ kubectl create configmap app-config --from-literal=key=val --dry-run=client -o yaml │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TIPS ───────────────────────────────────────────────────────────────────────┐
+│ Use -o yaml or -o json for detailed output                                   │
+│ Use --dry-run=client -o yaml to generate manifests                           │
+│ Use -w to watch resources in real-time                                       │
+│ Use kubectl explain <resource> to see documentation                          │
+│ Set resource requests/limits in production                                   │
+│ Always use liveness/readiness probes                                         │
+└──────────────────────────────────────────────────────────────────────────────┘

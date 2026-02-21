@@ -1,0 +1,132 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         DOCKER COMMANDS CHEAT SHEET                          ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─ IMAGES ─────────────────────────────────────────────────────────────────────┐
+│ docker pull nginx:latest          Pull image from registry                  │
+│ docker images                      List images                               │
+│ docker build -t myapp:1.0 .       Build image                               │
+│ docker tag myapp:1.0 myapp:latest Tag image                                 │
+│ docker push myapp:1.0              Push to registry                         │
+│ docker rmi nginx                   Remove image                             │
+│ docker image prune                 Remove dangling images                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ CONTAINERS ─────────────────────────────────────────────────────────────────┐
+│ docker run -d --name web nginx         Run detached with name               │
+│ docker run -d -p 8080:80 nginx         Port mapping (host:container)        │
+│ docker run -d -v /data:/app nginx      Volume mount                         │
+│ docker run -d -e VAR=value nginx       Environment variable                 │
+│ docker run -it ubuntu /bin/bash        Interactive terminal                 │
+│ docker run --rm -it alpine sh          Auto-remove after exit               │
+│ docker run -d --restart=always nginx   Auto-restart                         │
+│                                                                              │
+│ docker ps                          List running containers                   │
+│ docker ps -a                       List all containers                       │
+│ docker stop container_name         Stop container                            │
+│ docker start container_name        Start container                           │
+│ docker restart container_name      Restart container                         │
+│ docker rm container_name           Remove container                          │
+│ docker rm -f container_name        Force remove                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ EXEC & LOGS ────────────────────────────────────────────────────────────────┐
+│ docker exec -it web /bin/bash     Shell in running container                │
+│ docker exec web ls /app            Run command                               │
+│ docker logs web                    View logs                                 │
+│ docker logs -f web                 Follow logs (real-time)                   │
+│ docker logs --tail 100 web         Last 100 lines                            │
+│ docker cp web:/app/file.txt .     Copy from container                       │
+│ docker cp file.txt web:/app/       Copy to container                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ INSPECT & DEBUG ────────────────────────────────────────────────────────────┐
+│ docker inspect web                 Detailed container info                   │
+│ docker stats                       Resource usage (CPU/RAM)                  │
+│ docker stats --no-stream           Snapshot                                  │
+│ docker top web                     Processes in container                    │
+│ docker port web                    Port mappings                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ VOLUMES ────────────────────────────────────────────────────────────────────┐
+│ docker volume create mydata        Create volume                             │
+│ docker volume ls                   List volumes                              │
+│ docker volume inspect mydata       Volume details                            │
+│ docker volume rm mydata            Remove volume                             │
+│ docker volume prune                Remove unused volumes                     │
+│                                                                              │
+│ docker run -v mydata:/data nginx   Named volume                             │
+│ docker run -v /host:/container nginx  Bind mount                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ NETWORKS ───────────────────────────────────────────────────────────────────┐
+│ docker network create mynet        Create network                            │
+│ docker network ls                  List networks                             │
+│ docker network inspect mynet       Network details                           │
+│ docker network connect mynet web   Connect container                         │
+│ docker network disconnect mynet web Disconnect                               │
+│ docker network rm mynet            Remove network                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ DOCKER COMPOSE ─────────────────────────────────────────────────────────────┐
+│ docker-compose up -d               Start services (detached)                 │
+│ docker-compose down                Stop and remove containers                │
+│ docker-compose down -v             Remove volumes too                        │
+│ docker-compose ps                  List services                             │
+│ docker-compose logs -f             Follow logs                               │
+│ docker-compose exec web sh         Shell in service                          │
+│ docker-compose build               Build images                              │
+│ docker-compose restart             Restart services                          │
+│ docker-compose up --scale app=3    Scale service                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ CLEANUP ────────────────────────────────────────────────────────────────────┐
+│ docker system prune                Remove stopped containers, dangling images│
+│ docker system prune -a             Remove ALL unused images                  │
+│ docker system prune --volumes      Include volumes                           │
+│ docker system df                   Disk usage                                │
+│                                                                              │
+│ docker container prune             Remove stopped containers                 │
+│ docker image prune                 Remove dangling images                    │
+│ docker volume prune                Remove unused volumes                     │
+│ docker network prune               Remove unused networks                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ DOCKERFILE EXAMPLE ─────────────────────────────────────────────────────────┐
+│ FROM node:18-alpine                                                          │
+│ WORKDIR /app                                                                 │
+│ COPY package*.json ./                                                        │
+│ RUN npm ci --only=production                                                 │
+│ COPY . .                                                                     │
+│ EXPOSE 3000                                                                  │
+│ USER node                                                                    │
+│ CMD ["node", "server.js"]                                                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ DOCKER-COMPOSE.YML EXAMPLE ─────────────────────────────────────────────────┐
+│ version: '3.8'                                                               │
+│ services:                                                                    │
+│   web:                                                                       │
+│     image: nginx:latest                                                      │
+│     ports:                                                                   │
+│       - "80:80"                                                              │
+│     volumes:                                                                 │
+│       - ./html:/usr/share/nginx/html                                         │
+│   db:                                                                        │
+│     image: mysql:8.0                                                         │
+│     environment:                                                             │
+│       MYSQL_ROOT_PASSWORD: secret                                            │
+│     volumes:                                                                 │
+│       - db-data:/var/lib/mysql                                               │
+│ volumes:                                                                     │
+│   db-data:                                                                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TIPS ───────────────────────────────────────────────────────────────────────┐
+│ Use .dockerignore              Exclude files from build context              │
+│ Multi-stage builds             Reduce image size                             │
+│ Don't run as root              USER directive in Dockerfile                  │
+│ One process per container      Follow 12-factor app principles               │
+│ Use specific tags              Avoid :latest in production                   │
+│ Clean up regularly             docker system prune -a                        │
+└──────────────────────────────────────────────────────────────────────────────┘

@@ -1,0 +1,120 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         LINUX COMMANDS CHEAT SHEET                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─ NAVIGATION ─────────────────────────────────────────────────────────────────┐
+│ pwd                      Print working directory                             │
+│ cd ~                     Go to home                                          │
+│ cd -                     Go to previous directory                            │
+│ ls -lah                  List all (human readable, hidden files)             │
+│ ls -lt                   List sorted by modification time                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ FILES & DIRECTORIES ────────────────────────────────────────────────────────┐
+│ cp -r src/ dest/         Copy directory recursively                          │
+│ mv old.txt new.txt       Rename file                                         │
+│ rm -rf dir/              Remove directory (force)                            │
+│ mkdir -p a/b/c           Create nested directories                           │
+│ touch file.txt           Create empty file                                   │
+│ find . -name "*.log"     Find files by name                                  │
+│ find . -size +100M       Find files > 100MB                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PERMISSIONS ────────────────────────────────────────────────────────────────┐
+│ chmod 755 script.sh      rwxr-xr-x (owner: rwx, group: r-x, others: r-x)    │
+│ chmod 644 file.txt       rw-r--r-- (standard file)                           │
+│ chmod +x script.sh       Make executable                                     │
+│ chown user:group file    Change owner                                        │
+│ chown -R user:group dir/ Recursive ownership                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PROCESSES ──────────────────────────────────────────────────────────────────┐
+│ ps aux                   List all processes                                  │
+│ ps aux | grep nginx      Filter by name                                      │
+│ top                      Interactive process viewer                          │
+│ kill -9 1234             Force kill PID 1234                                 │
+│ pkill nginx              Kill by name                                        │
+│ systemctl start nginx    Start service                                       │
+│ systemctl status nginx   Check service status                                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SYSTEM INFO ────────────────────────────────────────────────────────────────┐
+│ free -h                  Memory usage                                        │
+│ df -h                    Disk space                                          │
+│ du -sh /var/log          Directory size                                      │
+│ uptime                   System uptime                                       │
+│ uname -a                 System information                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ NETWORK ────────────────────────────────────────────────────────────────────┐
+│ ip addr                  Show IP addresses                                   │
+│ ping -c 4 google.com     Ping (4 packets)                                    │
+│ netstat -tulpn           Listening ports                                     │
+│ ss -tulpn                Modern netstat                                      │
+│ curl -I https://...      HTTP headers                                        │
+│ wget URL                 Download file                                       │
+│ nslookup google.com      DNS lookup                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SEARCH & FILTER ────────────────────────────────────────────────────────────┐
+│ grep -r "error" /var/log Search recursively                                  │
+│ grep -i "pattern" file   Case insensitive                                    │
+│ grep -v "exclude" file   Invert match                                        │
+│ grep -A 3 "pattern" file 3 lines After match                                 │
+│ awk '{print $1}' file    Print first column                                  │
+│ sed 's/old/new/g' file   Replace all occurrences                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ COMPRESSION ────────────────────────────────────────────────────────────────┐
+│ tar -czvf file.tar.gz dir/   Create gzip archive                            │
+│ tar -xzvf file.tar.gz        Extract gzip archive                           │
+│ tar -cjvf file.tar.bz2 dir/  Create bzip2 archive                           │
+│ zip -r file.zip dir/         Create zip archive                             │
+│ unzip file.zip               Extract zip                                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ USERS & GROUPS ─────────────────────────────────────────────────────────────┐
+│ useradd -m -s /bin/bash user  Create user with home                         │
+│ usermod -aG sudo user         Add user to sudo group                        │
+│ passwd user                   Change password                               │
+│ userdel -r user               Delete user + home                            │
+│ groups user                   Show user groups                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ CRON (SCHEDULE) ────────────────────────────────────────────────────────────┐
+│ crontab -e               Edit crontab                                        │
+│ crontab -l               List crontab                                        │
+│                                                                              │
+│ Format:  * * * * * command                                                   │
+│          │ │ │ │ │                                                           │
+│          │ │ │ │ └─ Day of week (0-7)                                        │
+│          │ │ │ └─── Month (1-12)                                             │
+│          │ │ └───── Day (1-31)                                               │
+│          │ └─────── Hour (0-23)                                              │
+│          └───────── Minute (0-59)                                            │
+│                                                                              │
+│ */5 * * * * /script.sh   Every 5 minutes                                     │
+│ 0 2 * * * /backup.sh     Daily at 2 AM                                       │
+│ 0 9 * * 1 /report.sh     Monday at 9 AM                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PACKAGE MANAGEMENT ─────────────────────────────────────────────────────────┐
+│ apt update               Update package list (Debian/Ubuntu)                 │
+│ apt upgrade              Upgrade packages                                    │
+│ apt install nginx        Install package                                     │
+│ apt remove nginx         Remove package                                      │
+│ yum install nginx        Install (RHEL/CentOS)                               │
+│ dnf install nginx        Install (Fedora/CentOS 8+)                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ TIPS ───────────────────────────────────────────────────────────────────────┐
+│ !!                       Repeat last command                                 │
+│ !$                       Last argument of previous command                   │
+│ Ctrl+R                   Search command history                              │
+│ Ctrl+C                   Cancel current command                              │
+│ Ctrl+Z                   Suspend process (bg to resume)                      │
+│ command &                Run in background                                   │
+│ command > file           Redirect output to file                             │
+│ command >> file          Append output to file                               │
+│ command1 | command2      Pipe output                                         │
+└──────────────────────────────────────────────────────────────────────────────┘
