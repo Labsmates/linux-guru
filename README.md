@@ -78,6 +78,23 @@ Guide pratique et détaillé des commandes Linux, Docker et OpenShift/Kubernetes
 
 ---
 
+## 📄 Cheat Sheets
+
+**Références rapides d'une page pour consultation immédiate :**
+
+- [Linux Commands Cheat Sheet](./cheatsheets/linux-cheatsheet.txt) - Commandes essentielles Linux
+- [Docker Cheat Sheet](./cheatsheets/docker-cheatsheet.txt) - Docker & Docker Compose
+- [Kubectl/OpenShift Cheat Sheet](./cheatsheets/kubectl-cheatsheet.txt) - Kubernetes & OpenShift
+
+Format ASCII pour consultation rapide dans le terminal :
+```bash
+cat cheatsheets/linux-cheatsheet.txt
+cat cheatsheets/docker-cheatsheet.txt
+cat cheatsheets/kubectl-cheatsheet.txt
+```
+
+---
+
 ## 🚀 Démarrage rapide
 
 ```bash
